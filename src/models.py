@@ -7,23 +7,47 @@ from eralchemy2 import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
-    # Here we define columns for the table person
-    # Notice that each column is also a normal Python instance attribute.
+class User(Base):
+    __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
+    full_name = Column(String(250))
+    email = Column(String(250))
+    user_name = Column(String(250))
+    city = Column(String(250))
+    country = Column(String(250))
 
-class Address(Base):
-    __tablename__ = 'address'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
+class Games(Base):
+    __tablename__ = 'games'
     id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
+    title = Column(String(250))
+    pegi = Column(Integer)
+    argument = Column(String(250))
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
+     
+class Platform(Base):
+    __tablename__ = 'platform'
+    id = Column(Integer, primary_key=True)
+    company = Column(String(250))
+    console = Column(String(250))
+    country = Column(String(250))
+    games_id = Column(Integer, ForeignKey('games.id'))
+    games = relationship(Games)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
+
+class Gender(Base):
+    __tablename__ = 'gender'
+    id = Column(Integer, primary_key=True)
+    type = Column(String(250))
+    games_id = Column(Integer, ForeignKey('games.id'))
+    games = relationship(Games)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
+
+
+   
+
 
     def to_dict(self):
         return {}
